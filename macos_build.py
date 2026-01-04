@@ -1,35 +1,44 @@
 import streamlit as st
 from juzgados import JUZGADOS
-import webbrowser
 
-# Configuración de la página
+# Configuración visual de la página
 st.set_page_config(page_title="Rodríguez Asociados", page_icon="⚖️")
 
-# Estilo visual (Dorado y Negro)
+# Estilo para que parezca una App (Botones dorados y fondo oscuro)
 st.markdown("""
     <style>
+    .main { background-color: #000000; }
     .stButton>button {
         width: 100%;
-        border-radius: 20px;
+        border-radius: 25px;
         border: 2px solid #C9A24D;
-        background-color: black;
+        background-color: transparent;
         color: white;
-        height: 3em;
+        height: 3.5em;
+        font-weight: bold;
+        transition: 0.3s;
     }
     .stButton>button:hover {
         background-color: #C9A24D;
         color: black;
+        border: 2px solid #C9A24D;
     }
-    h1 { color: #C9A24D; text-align: center; }
+    h1 { color: #C9A24D; text-align: center; font-family: 'serif'; }
+    p { color: white; text-align: center; }
     </style>
     """, unsafe_allow_html=True)
 
 st.title("RODRÍGUEZ ASOCIADOS")
-st.subheader("Chiquinquirá - Familia")
+st.write("Seleccione el juzgado para abrir el portal oficial")
 
-# Botones de Juzgados
+# Crear los botones funcionales
 for nombre, url in JUZGADOS.items():
+    # Creamos un botón normal, pero al hacer clic usamos un componente de link oculto
     if st.button(nombre):
-        # En la web, esto abre una pestaña nueva
-        st.write(f"Abriendo: {nombre}...")
-        st.markdown(f'<meta http-equiv="refresh" content="0;URL={url}">', unsafe_allow_html=True)
+        js = f"window.open('{url}')"  # Este comando le dice al navegador: "abre esta web"
+        st.components.v1.html(f"<script>{js}</script>", height=0)
+        st.success(f"Abriendo {nombre}...")
+
+# Pie de página
+st.markdown("---")
+st.caption("Sistema de Gestión Judicial - Chiquinquirá")
