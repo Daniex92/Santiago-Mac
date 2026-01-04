@@ -1,0 +1,68 @@
+import streamlit as st
+
+# Configuración de la página
+st.set_page_config(page_title="Rodríguez Asociados", page_icon="⚖️")
+
+# Datos de los juzgados (Integrado de tu juzgados.py)
+JUZGADOS = {
+    "Chiquinquirá - Familia": "151763110001 - JUZGADO 001 DE FAMILIA DEL CIRCUITO DE CHIQUINQUIRÁ",
+    "Ubaté - Civil Circuito": "CIVIL DEL CIRCUITO",
+    "Ubaté - Civil Municipal": "CIVIL MUNICIPAL"
+}
+
+URL_PORTAL = "https://publicacionesprocesales.ramajudicial.gov.co/web/publicaciones-procesales/inicio"
+
+# Estilo visual (Negro y Dorado)
+st.markdown(f"""
+    <style>
+    .stApp {{ background-color: #000000; }}
+    .titulo {{
+        color: #C9A24D;
+        text-align: center;
+        font-family: 'Times New Roman', serif;
+        font-size: 40px;
+        font-weight: bold;
+        margin-bottom: 0px;
+    }}
+    .subtitulo {{
+        color: white;
+        text-align: center;
+        font-family: 'Times New Roman', serif;
+        font-size: 18px;
+        margin-bottom: 30px;
+    }}
+    .stButton>button {{
+        width: 100%;
+        border-radius: 10px;
+        border: 1px solid #C9A24D;
+        background-color: #0B0B0B;
+        color: white;
+        height: 3.5em;
+        font-family: 'Times New Roman', serif;
+        transition: 0.3s;
+    }}
+    .stButton>button:hover {{
+        background-color: #C9A24D;
+        color: black;
+    }}
+    </style>
+    """, unsafe_allow_html=True)
+
+st.markdown('<p class="titulo">RODRÍGUEZ<br>ASOCIADOS</p>', unsafe_allow_html=True)
+st.markdown('<p class="subtitulo">Oficina de Abogados</p>', unsafe_allow_html=True)
+
+st.info("Al hacer clic, se abrirá el portal oficial. Copia el nombre del despacho para pegarlo en el buscador.")
+
+# Generación de botones
+for nombre, despacho in JUZGADOS.items():
+    if st.button(f"Ir a {nombre}"):
+        # Mostramos el nombre del despacho para que el usuario lo copie
+        st.code(despacho, language=None)
+        st.success(f"Copia el texto de arriba y pégalo en el portal.")
+        
+        # Script para abrir la web en pestaña nueva
+        js = f"window.open('{URL_PORTAL}')"
+        st.components.v1.html(f"<script>{js}</script>", height=0)
+
+st.markdown("---")
+st.caption("© 2024 Rodríguez Asociados - Gestión Judicial")
